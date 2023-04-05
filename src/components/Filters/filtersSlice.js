@@ -33,49 +33,56 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const filtersSlice = createSlice({
-   name: 'filters',
-   initialState: {
-      search: '',
-      status: 'All',
-      priorities: []
-   },
-   reducers: {
-      // mutation
-      searchFilterChange: (state, action) => {
-         state.search = action.payload
-      },
-      statusFilterChange: (state, action) => {
-         state.status = action.payload
-      },
-      prioritiesFilterChange: (state, action) => {
-         state.priorities = action.payload
-      },
-   },
-   extraReducers: builder => {
-      builder
-         .addCase(statusFilterTodo.fulfilled, (state, action) => {
-            console.log(action.payload)
-            state.status = action.payload
-         })
-         .addCase(prioritiesFilterTodo.fulfilled, (state, action) => {
-            state.priorities = action.payload
-         })
-   }
-})
+  name: "filters",
+  initialState: {
+    search: "",
+    status: "All",
+    priorities: [],
+  },
+  reducers: {
+    //Generate action creators and can be mutation
+    searchFilterChange: (state, action) => {
+      state.search = action.payload;
+    },
 
-export const statusFilterTodo = createAsyncThunk('/api/statusFilterTodo', async (status) => {
-   fetch('/api/statusFilter', {
-      method: 'POST',
-      body: JSON.stringify(status)
-   })
-   return status
-})
+    statusFilterChange: (state, action) => {
+      state.status = action.payload;
+    },
+    prioritiesFilterChange: (state, action) => {
+      state.priorities = action.payload;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(statusFilterTodo.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.status = action.payload;
+      })
+      .addCase(prioritiesFilterTodo.fulfilled, (state, action) => {
+        state.priorities = action.payload;
+      });
+  },
+});
 
-export const prioritiesFilterTodo = createAsyncThunk('/api/prioritiesFilterTodo', async (priorities) => {
-   fetch('/api/prioritiesFilter', {
-      method: 'POST',
-      body: JSON.stringify(priorities)
-   })
-   return priorities
-})
-export default filtersSlice
+export const statusFilterTodo = createAsyncThunk(
+  "/api/statusFilterTodo",
+  async (status) => {
+    fetch("/api/statusFilter", {
+      method: "POST",
+      body: JSON.stringify(status),
+    });
+    return status;
+  }
+);
+
+export const prioritiesFilterTodo = createAsyncThunk(
+  "/api/prioritiesFilterTodo",
+  async (priorities) => {
+    fetch("/api/prioritiesFilter", {
+      method: "POST",
+      body: JSON.stringify(priorities),
+    });
+    return priorities;
+  }
+);
+export default filtersSlice;
